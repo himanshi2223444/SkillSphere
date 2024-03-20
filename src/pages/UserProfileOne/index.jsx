@@ -3,13 +3,16 @@ import React, { useState,useEffect } from "react";
 import { Button, Img, Text } from "components";
 import { useLocation } from "react-router-dom";
 import Header from "components/Header";
-import { account,database,auth } from "services/appwrite";
+import { account,database,auth,storage } from "services/appwrite";
 import { Query } from "appwrite";
 
 
     
-const UserProfileOnePage = () => {
+const UserProfileOnePage = ({ bucketId, userEmail }) => {
   const location = useLocation();
+  const Email=location.state.email 
+  console.log(location.state.email);
+  console.log(Email);
   const [userData, setUserData] = useState({
       username: '',
       personalWebsiteLink: '',
@@ -23,15 +26,16 @@ const UserProfileOnePage = () => {
       employmentStatus: '',
       email: '', // Rename email1 to email for clarity
   });
-
+  const [posts, setPosts] = useState([]);
   useEffect(() => {
       const fetchUserData = async () => {
           try {
               const storedSession = localStorage.getItem("session");
               if (storedSession) {
                   const sessionData = JSON.parse(storedSession);
-                  const userEmail = sessionData.providerUid;
-
+                  // const userEmail = sessionData.providerUid;
+                    const userEmail=Email;
+                    console.log(userEmail);
                   // Fetch all documents from the collections
                   const resOne = await database.listDocuments(
                       process.env.REACT_APP_DB_ID,
@@ -74,9 +78,22 @@ const UserProfileOnePage = () => {
               console.error('Error fetching user data:', error);
           }
       };
+      const fetchPosts = async () => {
+        try {
+          // Fetch posts based on user's email
+          const response = await storage.getFile(process.env.REACT_APP_BUCKET_ID_ONE,`${userEmail}.json`); // Fetch posts file from bucketId
+        const postsDataFromBucket = await response.blob();
+        const postsDataJSON = await new Response(postsDataFromBucket).json();
+        setPosts(postsDataJSON);
+        } catch (error) {
+          console.error('Error fetching posts:', error);
+        }
+      };
 
       fetchUserData();
-  }, []);
+      fetchPosts();
+  }, [bucketId,userEmail]);
+  
 // const { activepage } = useParams();
   // const [visible, setVisible] = useState(false);
   // const [originalImage, setOriginalImage] = useState(null);
@@ -377,6 +394,24 @@ const UserProfileOnePage = () => {
           </Text>
         </div>
       </div>
+      <div className="user-profile">
+      <h2>User Profile</h2>
+      <div className="user-details">
+        <p>Username: {userData.username}</p>
+        <p>Email: {userData.email}</p>
+        {/* Display other user details as needed */}
+      </div>
+      <h3>User Posts</h3>
+      <div className="posts-list">
+        {posts.map((post, index) => (
+          <div key={index} className="post-item">
+            <h4>{post.title}</h4>
+            <p>{post.content}</p>
+            {/* Additional post details */}
+          </div>
+        ))}
+      </div>
+    </div>
     </>
   );
 };

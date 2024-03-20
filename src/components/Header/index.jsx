@@ -1,8 +1,39 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import {nav} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Img, Text,Button } from "components";
+import { account,database,query } from "services/appwrite";
+import { Query } from "appwrite";
 
 const Header = (props) => {
+  
+    const [searchQuery, setSearchQuery] = useState(""); // State to hold search query
+    const navigate = useNavigate();
+  
+    const handleSearch = async () => {
+      // Initialize the Appwrite Query
+   
+  
+      // Search for users based on the search query in the 'users' collection
+      
+      
+       
+  
+      try {
+        console.log(searchQuery);
+        const users  = await props.database.listDocuments(process.env.REACT_APP_DB_ID,
+          process.env.REACT_APP_COLLECTION_ID,[Query.contains("username",searchQuery)]
+        
+        );
+  
+        // Process and display users' information
+          console.log("Search Results:", users);
+        // You can set the fetched users to state and render them dynamically in your UI
+      } catch (error) {
+        console.error("Error searching for users:", error);
+      }
+    };
+  
   return (
     <>
       <header className={props.className}>
@@ -23,12 +54,14 @@ const Header = (props) => {
   type="text"
   className="ml-4 sm:ml-0 text-32px sm:text-lg text-white-A700 md:text-xl bg-transparent  border-none outline-none focus:outline-none w-full"
   placeholder="What skills are you looking for today?"
+  onChange={(e)=>setSearchQuery(e.target.value)}
   
 />
             <Img
               className="h-[58px] md:h-auto object-cover w-[58px] cursor-pointer"
               src="images/img_searchicon.png"
               alt="searchicon"
+              onClick={handleSearch}
               // onClick={() => navigate("/SearchButtonThree")}
             />
           </div>

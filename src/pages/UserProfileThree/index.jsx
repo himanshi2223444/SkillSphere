@@ -23,7 +23,7 @@ const UserProfileThree = () => {
   const [originalImage, setOriginalImage] = React.useState(null);
   const [croppedImage, setCroppedImage] = React.useState(null);
   const [editor, setEditor] = React.useState(null);
-  const [email1,setEmail1]=React.useState();
+  const [imgurl,setimgurl]=React.useState();
   const [userData, setUserData] = React.useState({
     username: '',
     personalWebsiteLink: '',
@@ -131,7 +131,11 @@ const UserProfileThree = () => {
       setCroppedImage(imageData);
 
       try {
-        const imageUrl = await updateImageInStorage(imageData);
+        const imageId = await updateImageInStorage(imageData);
+        const storageUrl = 'https://example.com/storage/';
+
+        // Generate the full image URL by combining the storage URL and the image ID
+        const imageUrl = storageUrl + imageId;
         setUserData(prevUserData => ({ ...prevUserData, imageURL: imageUrl }));
       } catch (error) {
         console.error('Error uploading image:', error);
@@ -168,6 +172,18 @@ const UserProfileThree = () => {
     } catch (error) {
       console.error('Error handling post submission:', error);
     }
+  };
+  const renderUserImage = () => {
+    if (userData.imageURL) {
+      return (
+        <img
+          src="profile_image.png"
+          alt="User Profile"
+          className="h-[188px] mx-auto object-cover w-full"
+        />
+      );
+    }
+    return null; // If imageURL is empty, don't render the image
   };
 
   const footer = (
@@ -213,11 +229,13 @@ const UserProfileThree = () => {
         )}
       </Dialog>
       {croppedImage && (
-        <img
-          src={croppedImage}
-          alt="Cropped Image"
-          className="h-[197px]  cursor-pointer hover:h-[240px]  ml-[60px] mt-[-8px] rounded-[50%] hover:w-[230px] z-[1]"
-        />
+        // <img
+        //   src={croppedImage}
+          
+        //   alt="Cropped Image"
+        //   className="h-[197px]  cursor-pointer hover:h-[240px]  ml-[60px] mt-[-8px] rounded-[50%] hover:w-[230px] z-[1]"
+        // />
+        renderUserImage()
       )}
          <button onClick={() => handleSave()}>Save</button>
     </div>

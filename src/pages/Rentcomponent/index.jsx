@@ -1,9 +1,11 @@
 import { TailwindCard } from 'pages/HomePageTwo'
 import React,{ useState,useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { Img, Line, List, PagerIndicator, Slider, Text } from "components";
 import {account,database} from "services/appwrite"
 const RentComponent = () => {
   const [usersData, setUsersData] = useState([]);
+  const navigate = useNavigate();
   const [uniqueUsersData, setUniqueUsersData] = useState([]);
 
   useEffect(() => {
@@ -34,6 +36,11 @@ const RentComponent = () => {
 
     fetchUsersData();
   }, []);
+  const handleCardClick = (email) => {
+    console.log('Email clicked:', email);
+    navigate("/userprofileone", { state: { email } });
+    // Implement your logic to use the email, such as opening a modal or sending an email
+  };
   return (
     <>
      <div className="flex flex-col sm:flex-row gap-10 items-center justify-between max-w-[1402px] mt-8 mx-auto md:px-5 w-full">
@@ -58,6 +65,8 @@ return( */
                   username={user.username} // Assuming 'username' is a field in your data
                   aboutyou={user.abooutyou} // Assuming 'abooutyou' is a field in your data
                   // Add more props here as needed for other data fields
+                  onClick={() => handleCardClick(user.email)}
+                  
                 />
               ))}
 
@@ -90,10 +99,11 @@ return( */
     key={index}
     className="m-auto text-[22px] text-gray-900 sm:text-lg md:text-xl"
     size="txtQuicksandBold22"
+    onClick={() => handleCardClick(user.email)}
   >
     <span className="text-gray-900 font-quicksand text-left font-semibold">
       <>
-        {user.username} 
+        {user.username } 
         <br />
       </>
     </span>

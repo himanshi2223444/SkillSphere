@@ -11,11 +11,42 @@ import {
 } from "components";
 import Footer from "components/Footer";
 import Header from "components/Header";
+import { account,database } from "services/appwrite";
 
 const SearchButtonTwoPage = () => {
   const sliderRef = React.useRef(null);
-  const [sliderState, setsliderState] = React.useState(0);
 
+  const [sliderState, setsliderState] = React.useState(0);
+//   // Search function
+// async function searchCollection(query) {
+//   try {
+//     const response = await database.listDocuments(process.env.REACT_APP_DB_ID,process.env.REACT_APP_COLLECTION_ID_ONE);
+//     const documents = response.documents;
+//     // Extract username, role, and skills from documents
+//     const searchData = documents.map(doc => ({
+//       username: doc.username,
+//       role: doc.role,
+//       skills: doc.skills
+//     }));
+//     return searchData;
+//   } catch (error) {
+//     console.error("Error searching collection:", error);
+//     throw error;
+//   }
+// }
+
+// // Example usage
+// const keywords = "web developer"; // Keywords to search for
+// const searchQuery = database.createQuery().search("text", keywords);
+// searchCollection(searchQuery)
+//   .then(results => {
+//     console.log("Search results:", results);
+//     // Handle search results here
+//   })
+//   .catch(error => {
+//     console.error("Error searching collection:", error);
+//     // Handle error
+//   });
   return (
     <>
       <div className="bg-white-A700 flex font-quicksand h-[2712px] justify-end mx-auto relative w-full">
@@ -26,7 +57,7 @@ const SearchButtonTwoPage = () => {
             alt="aerialshoturb"
           />
           <div className="absolute bg-gray-900_8e flex flex-col h-full inset-[0] items-center justify-center m-auto pb-[740px] w-full">
-            <Header className="flex md:flex-col md:gap-5 items-center justify-center w-full" />
+            <Header database={database} className="flex md:flex-col md:gap-5 items-center justify-center w-full" />
           </div>
         </div>
         <div className="absolute bottom-[15%] flex flex-col inset-x-[0] items-start justify-start max-w-[1404px] mx-auto md:px-5 w-full">

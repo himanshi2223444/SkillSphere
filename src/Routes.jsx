@@ -9,9 +9,11 @@ const HomePageFive = React.lazy(() => import("pages/HomePageFive"));
 const HomePageFour = React.lazy(() => import("pages/HomePageFour"));
 const HomePageThree = React.lazy(() => import("pages/HomePageThree"));
 const SearchButtonThree = React.lazy(() => import("pages/SearchButtonThree"));
+const HireForm = React.lazy(() => import("pages/HireForm"));
 const SearchButtonOne = React.lazy(() => import("pages/SearchButtonOne"));
 const FrameOne = React.lazy(() => import("pages/FrameOne"));
 const MessageOne = React.lazy(() => import("pages/MessageOne"));
+const NewRent = React.lazy(() => import("pages/NewRent"));
 const SignUpOne = React.lazy(() => import("pages/SignUpOne"));
 const SignUp = React.lazy(() => import("pages/SignUp"));
 const SignUpFive = React.lazy(() => import("pages/SignUpFive"));
@@ -57,6 +59,7 @@ const ProjectRoutes = () => {
           <Route path="/frametwo" element={<FrameTwo />} />
          
           <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/hireform" element={<HireForm />} />
        
           <Route path="/signup21" element={<SignUp21 />} />
           <Route path="/signuptwo" element={<SignUpTwo />} />
@@ -85,6 +88,7 @@ const ProjectRoutes = () => {
           <Route path="/signupone" element={<SignUpOne />} />
           <Route path="/messageone" element={<MessageOne />} />
           <Route path="/frameone" element={<FrameOne />} />
+          <Route path="/newrent" element={<NewRent />} />
           <Route path="/searchbuttonone" element={<SearchButtonOne />} />
           <Route path="/searchbuttonthree" element={<SearchButtonThree />} />
           <Route path="/rentcomponent" element={<Rentcomponent />} />

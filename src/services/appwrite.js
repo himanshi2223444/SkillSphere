@@ -6,6 +6,6 @@ client.setEndpoint(process.env.REACT_APP_ENDPOINT).setProject(process.env.REACT_
 // Your API Endpoint
 // Your project ID
 export const account = new Account(client);
-// eexport const query=new Query();
+export const query=new Query();
 export const database = new Databases(client);
 export const storage =new Storage(client);
